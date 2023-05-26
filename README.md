@@ -54,3 +54,42 @@ setNumber(n => n + 1)
     };
   }, [data]);
 ```
+
+#### useContext
+使孙子组件可以访问顶层组件，配合createContext使用。
+```JavaScript
+import { createContext, useContext } from "react";
+
+const MyCtx = createContext();
+export default function Father() {
+  return (
+    <MyCtx.Provider value="你的数据">
+      <Child />
+    </MyCtx.Provider>
+  );
+}
+function Child() {
+  const ctx = useContext(MyCtx);
+  return <>{ctx}</>; //你的数据
+}
+
+```
+
+#### useRef
+1. 非常适合存储不影响组件视觉输出的信息。
+> 特点  
+> 您可以在重新渲染之间存储信息（不同于在每次渲染时重置的常规变量）。  
+> 更改它不会触发重新渲染（与触发重新渲染的状态变量不同）。  
+> 该信息对于组件的每个副本都是本地的（不像外部变量，它们是共享的）。
+
+2. 使用 ref 来操作 DOM 特别常见
+```JavaScript
+import { useRef } from 'react';
+
+function MyComponent() {
+  const inputRef = useRef(null);
+  function handleClick() {
+    inputRef.current.focus();
+  }
+  return <input ref={inputRef} />;
+```
