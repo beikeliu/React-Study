@@ -130,3 +130,11 @@ export default function Counter() {
   );
 }
 ```
+
+#### useMemo
+计算属性，可以跳过昂贵的重新计算，用来性能优化。
+用法：
+```JavaScript
+const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+```
+只有当todos, tab变化了，才会重新计算filterTodos，否则会缓存下来此结果。
