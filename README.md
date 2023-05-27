@@ -93,3 +93,40 @@ function MyComponent() {
   }
   return <input ref={inputRef} />;
 ```
+
+#### useReducer
+1. useReducer与useState非常相似，但它允许您将状态更新逻辑从事件处理程序移动到组件外部的单个函数中。来比较一下：  
+> a. 代码大小：一般来说，使用 useState 你必须预先编写更少的代码。 使用 useReducer，您必须同时编写 reducer 函数和调度操作。 但是，如果许多事件处理程序以类似方式修改状态，useReducer 可以帮助减少代码。  
+> b. 可读性：当状态更新很简单时，useState 非常容易阅读。 当它们变得更复杂时，它们会使您的组件代码膨胀并使其难以扫描。 在这种情况下，useReducer 可以让您清楚地将更新逻辑的方式与事件处理程序发生的事情分开。  
+> c. 调试：当您遇到 useState 的错误时，可能很难判断状态设置错误的位置以及原因。 使用 useReducer，您可以将控制台日志添加到您的 reducer 中，以查看每个状态更新，以及它发生的原因（由于哪个操作）。 如果每个动作都是正确的，你就会知道错误出在 reducer 逻辑本身。 但是，与 useState 相比，您必须逐步执行更多代码。  
+> d. 测试：reducer 是一个不依赖于您的组件的纯函数。 这意味着您可以隔离地单独导出和测试它。 虽然通常最好在更真实的环境中测试组件，但对于复杂的状态更新逻辑，断言你的 reducer 为特定的初始状态和操作返回特定的状态可能很有用。  
+
+2. 用法：
+```JavaScript
+import { useReducer } from 'react';
+
+function reducer(state, action) {
+  console.log(action)
+  if (action.type === 'incremented_age') {
+    return {
+      age: state.age + 1
+    };
+  }
+  throw Error('Unknown action.');
+}
+
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, { age: 42 });
+
+  return (
+    <>
+      <button onClick={() => {
+        dispatch({ type: 'incremented_age' })
+      }}>
+        Increment age
+      </button>
+      <p>Hello! You are {state.age}.</p>
+    </>
+  );
+}
+```
