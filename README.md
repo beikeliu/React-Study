@@ -104,9 +104,7 @@ function MyComponent() {
 2. 用法：
 ```JavaScript
 import { useReducer } from 'react';
-
 function reducer(state, action) {
-  console.log(action)
   if (action.type === 'incremented_age') {
     return {
       age: state.age + 1
@@ -114,10 +112,8 @@ function reducer(state, action) {
   }
   throw Error('Unknown action.');
 }
-
 export default function Counter() {
   const [state, dispatch] = useReducer(reducer, { age: 42 });
-
   return (
     <>
       <button onClick={() => {
