@@ -128,9 +128,16 @@ export default function Counter() {
 ```
 
 #### useMemo
-计算属性，可以跳过昂贵的重新计算，用来性能优化。
+用来缓存计算函数结果
 用法：
 ```JavaScript
 const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
 ```
 只有当todos, tab变化了，才会重新计算filterTodos，否则会缓存下来此结果。
+
+#### useCallback
+用来缓存函数定义
+```JavaScript
+const cachedFn = useCallback(fn, dependencies);
+```
+React 将在初始渲染期间返回（而不是调用！）你的函数。dependencies在下一次渲染中，如果自上次渲染以来没有改变，React 将再次为您提供相同的功能。否则，它将为您提供您在当前渲染期间传递的功能，并将其存储起来以备日后重用。
